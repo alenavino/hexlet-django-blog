@@ -3,7 +3,24 @@
 {% block content %}
     <h1>Список статей</h1>
     {% for article in articles %}
-        <a href="{% url 'article_detail' article.id %}">{{ article.name }}</a>
-        <div>{{ article.body|slice:":200" }}</div>
+    <table>
+        <td>
+            <tr>
+                <a href="{% url 'article_detail' article.id %}">{{ article.name }}</a>
+            </tr>
+            <tr>
+                <div>{{ article.body|slice:":200" }}</div>
+            </tr>
+            <tr>
+                <a href="{% url 'articles_update' article.id %}">Редактировать статью {{article.name|slice:":10"}}</a>
+            </tr>
+            <tr>
+                <form action="{% url 'articles_delete' article.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Удалить">
+                </form>
+            </tr>
+        </td>
+    </table>
     {% endfor %}
 {% endblock %}
